@@ -1,0 +1,31 @@
+﻿@using SRSprojekt.Models
+@model KluboviDB
+@{
+    ViewBag.Title = "Popis klubova";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Popis</h2>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Naziv</th>
+        <th>Adresa</th>
+        <th>Broj stolova</th>
+        <th>Detalji</th>
+        <th>Azuriraj</th>
+    </tr>
+    @foreach (var Klub in Model.VratiListu())
+            {
+                <tr>
+                    <td>@Klub.id_kluba</td>
+                    <td>@Klub.naziv</td>
+                    <td>@Klub.adresa</td>
+                    <td>@Klub.broj_stolova</td>
+                    <td>@Html.ActionLink("Info","Detalji",new {id=Klub.id_kluba}) </td>
+                    <td>@Html.ActionLink("Azuriraj","Azuriraj",new {id=Klub.id_kluba}) </td>
+                </tr>
+            }
+</table>
+
