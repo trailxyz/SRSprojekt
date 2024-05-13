@@ -1,0 +1,70 @@
+﻿@using SRSprojekt.Models
+@model Rezervator
+@{
+    ViewBag.Title = "Azuriranje: " + Model.Ime + Model.Prezime;
+}
+
+<h2>Azuriranje</h2>
+<h3>@Model.Ime</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<table>
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.Id)
+        </td>
+        <td>@Html.TextBoxFor(model => model.Id, new { disabled = true })</td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.Ime)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.Ime)
+            @Html.ValidationMessageFor(model => model.Ime)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.Prezime)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.Prezime)
+            @Html.ValidationMessageFor(model => model.Prezime)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.Email)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.Mobitel)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.Mobitel)
+            @Html.ValidationMessageFor(model => model.Mobitel)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.datumRod)
+        </td>
+        <td>
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </td>
+    </tr>
+</table>
+    @Html.ValidationSummary(true, "Spremanje nije uspjelo!");
+    <p><input type="submit" value="Spremi" /></p>
+    @Html.ActionLink("Povratak bez spremanja", "Popis", "Klub")
+}
+

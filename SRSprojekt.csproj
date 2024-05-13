@@ -313,6 +313,7 @@
     <Content Include="Views\Rezervator\Popis.cshtml" />
     <Content Include="Views\Rezervator\Detalji.cshtml" />
     <Content Include="Views\Rezervator\Index.cshtml" />
+    <Content Include="Views\Rezervator\Azuriraj.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
