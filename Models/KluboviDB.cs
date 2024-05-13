@@ -18,19 +18,19 @@ namespace SRSprojekt.Models
                 lista.Add(new Klub()
                 {
                     id_kluba = 1,
-                    naziv = "MEV klub",
-                    adresa = "ulica jorgovana 11",
-                   broj_stolova=15,
-                   Cijenovni_Rang =cijenovni_rang.jeftin
+                    nazivK = "MEV klub",
+                    adresaK = "ulica jorgovana 11",
+                   brStol=15,
+                  // Cijenovni_Rang =cijenovni_rang.jeftin
                 }
                );
                 lista.Add(new Klub()
                 {
                     id_kluba = 2,
-                    naziv = "kaotik klub",
-                    adresa = "ulica tratincica 11",
-                    broj_stolova = 250,
-                    Cijenovni_Rang = cijenovni_rang.skup
+                    nazivK = "kaotik klub",
+                    adresaK = "ulica tratincica 11",
+                    brStol = 250,
+                   // Cijenovni_Rang = cijenovni_rang.skup
                 }
                    );
             }

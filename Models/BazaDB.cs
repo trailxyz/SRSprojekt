@@ -13,8 +13,9 @@ namespace SRSprojekt.Models
     public class BazaDB : DbContext
     {
         public DbSet<Klub> KlubBaza { get; set; }
-        public DbSet<oKlub> ovlastenikKluba { get; set; }
         public DbSet<Rezervator> RezervatorBaza { get; set; }
+        public DbSet<oKlub> ovlastenaosobakluba { get; set; }
+    
 
     }
 }

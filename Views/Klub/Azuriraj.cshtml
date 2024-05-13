@@ -1,61 +1,58 @@
 ﻿@using SRSprojekt.Models
 @model Klub
 @{
-    ViewBag.Title = "Azuriranje: "+ Model.naziv;
+    ViewBag.Title = "Azuriranje: " + Model.nazivK;
 }
 
-<h2>Azuriranje</h2>
-<h3>@Model.naziv</h3>
-
 @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-<table>
-    <tr>
-        <td>
-            @Html.LabelFor(model => model.id_kluba)
-        </td>
-        <td>@Html.TextBoxFor(model => model.id_kluba, new { disabled = true })</td>
-    </tr>
-    <tr>
-        <td>
-            @Html.LabelFor(model => model.naziv)
-        </td>
-        <td>
-            @Html.TextBoxFor(model => model.naziv)
-            @Html.ValidationMessageFor(model => model.naziv)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.LabelFor(model => model.adresa)
-        </td>
-        <td>
-            @Html.TextBoxFor(model => model.adresa)
-            @Html.ValidationMessageFor(model => model.adresa)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.LabelFor(model => model.broj_stolova)
-        </td>
-        <td>
-            @Html.TextBoxFor(model => model.broj_stolova)
-            @Html.ValidationMessageFor(model => model.broj_stolova)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.LabelFor(model => model.Cijenovni_Rang)
-        </td>
-        <td>
-            @Html.EnumDropDownListFor(model => model.Cijenovni_Rang)
-            @Html.ValidationMessageFor(model => model.Cijenovni_Rang)
-        </td>
-    </tr>
-</table>
-@Html.ValidationSummary(true, "Spremanje nije uspjelo!");
+{
+    @Html.AntiForgeryToken()
+    <table>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.id_kluba)
+            </td>
+            <td>@Html.TextBoxFor(model => model.id_kluba, new { disabled = false })</td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.nazivK)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.nazivK)
+                @Html.ValidationMessageFor(model => model.nazivK)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.adresaK)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.adresaK)
+                @Html.ValidationMessageFor(model => model.adresaK)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.brStol)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.brStol)
+                @Html.ValidationMessageFor(model => model.brStol)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Cijenovni_Rang)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Cijenovni_Rang)
+                @Html.ValidationMessageFor(model => model.Cijenovni_Rang)
+            </td>
+        </tr>
+    </table>
+    @Html.ValidationSummary(true, "Spremanje nije uspjelo!");
     <p><input type="submit" value="Spremi" /></p>
     @Html.ActionLink("Povratak bez spremanja", "Popis", "Klub")
-            }
+}
 

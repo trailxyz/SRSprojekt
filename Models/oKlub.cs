@@ -7,7 +7,7 @@ using System.Web;
 
 namespace SRSprojekt.Models
 {
-    [Table("ovlastenaOsobaKluba")]
+    [Table("ovlastenaosobakluba")]
     public class oKlub
     {
         [Column("IdKorisnik")]

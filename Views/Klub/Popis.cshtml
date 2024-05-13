@@ -1,5 +1,5 @@
 ﻿@using SRSprojekt.Models
-@model KluboviDB
+@model List<Klub>
 @{
     ViewBag.Title = "Popis klubova";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,18 +13,20 @@
         <th>Naziv</th>
         <th>Adresa</th>
         <th>Broj stolova</th>
+        <th>Cijenovni rang</th>
         <th>Detalji</th>
         <th>Azuriraj</th>
     </tr>
-    @foreach (var Klub in Model.VratiListu())
-            {
+    @foreach(var klubovi in Model)      
+    {
                 <tr>
-                    <td>@Klub.id_kluba</td>
-                    <td>@Klub.naziv</td>
-                    <td>@Klub.adresa</td>
-                    <td>@Klub.broj_stolova</td>
-                    <td>@Html.ActionLink("Info","Detalji",new {id=Klub.id_kluba}) </td>
-                    <td>@Html.ActionLink("Azuriraj","Azuriraj",new {id=Klub.id_kluba}) </td>
+                    <td>@klubovi.id_kluba</td>
+                    <td>@klubovi.nazivK</td>
+                    <td>@klubovi.adresaK</td>
+                    <td>@klubovi.brStol</td>
+                       <td>@klubovi.Cijenovni_Rang</td>
+                    <td>@Html.ActionLink("Info", "Detalji", new { id = klubovi.id_kluba }) </td>
+                    <td>@Html.ActionLink("Azuriraj", "Azuriraj", new { id = klubovi.id_kluba }) </td>
                 </tr>
             }
 </table>

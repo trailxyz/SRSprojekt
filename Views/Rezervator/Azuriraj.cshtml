@@ -10,6 +10,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "Ispravi greske.");
 <table>
     <tr>
         <td>
@@ -58,8 +59,8 @@
             @Html.LabelFor(model => model.datumRod)
         </td>
         <td>
-            @Html.EditorFor(model => model.Email)
-            @Html.ValidationMessageFor(model => model.Email)
+            @Html.EditorFor(model => model.datumRod)
+            @Html.ValidationMessageFor(model => model.datumRod)
         </td>
     </tr>
 </table>

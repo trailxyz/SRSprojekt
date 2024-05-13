@@ -8,9 +8,10 @@ using System.Web.Mvc;
 
 namespace SRSprojekt.Controllers
 {
+
     public class KlubController : Controller
     {
-        KluboviDB bazaPodataka = new KluboviDB();
+        BazaDB bazaPodataka = new BazaDB();
         // GET: Korisnici
         [AllowAnonymous]
         public ActionResult Index()
@@ -22,8 +23,11 @@ namespace SRSprojekt.Controllers
 
         public ActionResult Popis()
         {
-            KluboviDB db = new KluboviDB();
-            return View(db);
+            var pizdamaterina = bazaPodataka.KlubBaza.ToList();
+
+
+
+            return View(pizdamaterina);
         }
 
         public ActionResult Detalji(int? id)
@@ -33,8 +37,8 @@ namespace SRSprojekt.Controllers
                 return RedirectToAction("Popis");
             }
 
-            KluboviDB KluboviDB = new KluboviDB();
-            Klub klub = KluboviDB.VratiListu().FirstOrDefault(x => x.id_kluba == id);
+            BazaDB db = new BazaDB();
+            Klub klub = db.KlubBaza.FirstOrDefault(x => x.id_kluba == id);
             if (klub == null)
             {
                 return RedirectToAction("Popis");
@@ -45,16 +49,28 @@ namespace SRSprojekt.Controllers
 
         public ActionResult Azuriraj(int? id)
         {
+            Klub klub = null;
             if (!id.HasValue)
             {
-                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+                klub = new Klub();
+                ViewBag.Title = "Unos novog kluba";
+                ViewBag.NoviKlub = true;
+                // return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
-            KluboviDB kluboviDB = new KluboviDB();
-            Klub klub= kluboviDB.VratiListu().FirstOrDefault(x=>x.id_kluba==id);
-            if (klub == null)
+            else
             {
-                return HttpNotFound();
+                
+                klub=bazaPodataka.KlubBaza.FirstOrDefault(x => x.id_kluba == id);
+                if (klub == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.Title = "Azuriranje podataka o klubu";
+                ViewBag.NoviKlub = false;
+            
             }
+            
+           
             return View(klub);
         }
         [HttpPost]
@@ -63,13 +79,24 @@ namespace SRSprojekt.Controllers
         {
             if (ModelState.IsValid)
             {
-                KluboviDB kluboviDB = new KluboviDB();
+                if (k.id_kluba != 0)
+                {
+                    bazaPodataka.Entry(k).State = System.Data.Entity.EntityState.Modified;
+                }
+                else
+                {
+                    bazaPodataka.KlubBaza.Add(k);
+                }
+                bazaPodataka.SaveChanges();
+              
+
                 return RedirectToAction("Popis");
             }
             return View(k);
         }
     }
-    }
+}
+    
 /* 
  * 
  *   // GET: Klub/Details/5

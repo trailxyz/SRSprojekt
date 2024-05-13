@@ -36,13 +36,12 @@ namespace SRSprojekt.Models
         [Column("mobRez")]
         [Display(Name = "Mobitel rezervatora")]
         [Required(ErrorMessage = "{0} je obavezan")]
-        [EmailAddress]
         public string Mobitel { get; set; }
 
         [Column("datumRodRez")]
         [Display(Name = "Datum rodenja rezervatora")]
         [Required(ErrorMessage = "{0} je obavezan")]
-        [Range(typeof(DateTime), "1/1/2006", "1/1/1900")]
+        [DataType(DataType.Date)]
         public DateTime datumRod { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace SRSprojekt.Controllers
 {
     public class RezervatorController : Controller
     {
-        rezervatori bazaPodataka = new rezervatori();
+        BazaDB bazaPodataka = new BazaDB();
         // GET: Korisnici
         [AllowAnonymous]
         public ActionResult Index()
@@ -21,7 +21,7 @@ namespace SRSprojekt.Controllers
 
         public ActionResult Popis()
         {
-            rezervatori db = new rezervatori();
+            BazaDB db = new BazaDB();
             return View(db);
         }
 
@@ -32,8 +32,9 @@ namespace SRSprojekt.Controllers
                 return RedirectToAction("Popis");
             }
 
-            rezervatori rezervatori = new rezervatori();
-            Rezervator rezervator = rezervatori.VratiListu().FirstOrDefault(x => x.Id == id);
+            BazaDB rezervatori = new BazaDB();
+          
+            Rezervator rezervator = rezervatori.RezervatorBaza.FirstOrDefault(x => x.Id == id);
             if (rezervator == null)
             {
                 return RedirectToAction("Popis");
@@ -48,8 +49,8 @@ namespace SRSprojekt.Controllers
             {
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
-            rezervatori rezervatori = new rezervatori();
-            Rezervator rezervator = rezervatori.VratiListu().FirstOrDefault(x => x.Id == id);
+            BazaDB rezervatori = new BazaDB();
+            Rezervator rezervator = rezervatori.RezervatorBaza.FirstOrDefault(x => x.Id == id);
             if (rezervator == null)
             {
                 return HttpNotFound();
@@ -62,9 +63,11 @@ namespace SRSprojekt.Controllers
         {
             if (ModelState.IsValid)
             {
-                rezervatori rezervatori = new rezervatori();
+               bazaPodataka.Entry(r).State=System.Data.Entity.EntityState.Modified;
+                bazaPodataka.SaveChanges();
                 return RedirectToAction("Popis");
             }
+           
             return View(r);
         }
     }

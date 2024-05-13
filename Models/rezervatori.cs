@@ -7,8 +7,8 @@ namespace SRSprojekt.Models
 {
     public class rezervatori
     {
-        private static List<Rezervator> lista = new List<Rezervator>();
-        private static bool listaInicijalizirana = false;
+         static List<Rezervator> lista = new List<Rezervator>();
+         static bool listaInicijalizirana = false;
         public rezervatori()
         {
             if (listaInicijalizirana == false)
