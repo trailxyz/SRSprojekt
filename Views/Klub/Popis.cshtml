@@ -7,6 +7,10 @@
 
 <h2>Popis</h2>
 
+@Html.ActionLink("Kreiranje novog kluba","Azuriraj")
+<br />
+<br />
+
 <table border="1">
     <tr>
         <th>ID</th>
@@ -16,6 +20,7 @@
         <th>Cijenovni rang</th>
         <th>Detalji</th>
         <th>Azuriraj</th>
+        <th>Brisi</th>
     </tr>
     @foreach(var klubovi in Model)      
     {
@@ -27,6 +32,7 @@
                        <td>@klubovi.Cijenovni_Rang</td>
                     <td>@Html.ActionLink("Info", "Detalji", new { id = klubovi.id_kluba }) </td>
                     <td>@Html.ActionLink("Azuriraj", "Azuriraj", new { id = klubovi.id_kluba }) </td>
+                    <td>@Html.ActionLink("Izbrisi", "Brisi", new { id = klubovi.id_kluba }) </td>
                 </tr>
             }
 </table>

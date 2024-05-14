@@ -325,6 +325,8 @@
     <Content Include="Views\Rezervator\Azuriraj.cshtml" />
     <Content Include="Views\oKlub\Popis.cshtml" />
     <Content Include="Views\oKlub\Azuriraj.cshtml" />
+    <Content Include="Views\Klub\Brisi.cshtml" />
+    <Content Include="Views\Klub\BrisiStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

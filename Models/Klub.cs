@@ -36,6 +36,14 @@ namespace SRSprojekt.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "{0} je obavezan podatak.")]
         [Display(Name = "Cijenovni rang kluba")]
         public string Cijenovni_Rang { get; set; } = "";
+
+        public string PuniNaziv
+        {
+            get
+            {
+                return  "(" + id_kluba + ")" + " " + nazivK;
+            }
+        }
         
 
     }

@@ -1,9 +1,5 @@
 ﻿using SRSprojekt.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.Core.Mapping;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SRSprojekt.Controllers
@@ -59,18 +55,18 @@ namespace SRSprojekt.Controllers
             }
             else
             {
-                
-                klub=bazaPodataka.KlubBaza.FirstOrDefault(x => x.id_kluba == id);
+
+                klub = bazaPodataka.KlubBaza.FirstOrDefault(x => x.id_kluba == id);
                 if (klub == null)
                 {
                     return HttpNotFound();
                 }
                 ViewBag.Title = "Azuriranje podataka o klubu";
                 ViewBag.NoviKlub = false;
-            
+
             }
-            
-           
+
+
             return View(klub);
         }
         [HttpPost]
@@ -88,15 +84,58 @@ namespace SRSprojekt.Controllers
                     bazaPodataka.KlubBaza.Add(k);
                 }
                 bazaPodataka.SaveChanges();
-              
+
 
                 return RedirectToAction("Popis");
             }
+            if (k.id_kluba == 0)
+            {
+                ViewBag.Title = "Kreiranje kluba";
+                ViewBag.NoviKlub = true;
+            }
+            else
+            {
+                ViewBag.Title = "Azuriranje podataka o studentu";
+                ViewBag.NoviKlub = false;
+            }
             return View(k);
+
+        }
+
+        public ActionResult Brisi(int? id)
+        {
+            if(id == null)
+            {
+                return RedirectToAction("Popis");
+            }
+
+            Klub k = bazaPodataka.KlubBaza.FirstOrDefault(x => x.id_kluba == id);
+
+            if (k == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Title = "Potvrda brisanja kluba";
+            return View(k);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Brisi(int id)
+        {
+            Klub k = bazaPodataka.KlubBaza.FirstOrDefault(x => x.id_kluba == id);
+                if(k == null)
+                {
+                return HttpNotFound();
+                }
+            bazaPodataka.KlubBaza.Remove(k);
+            bazaPodataka.SaveChanges();
+            return View("BrisiStatus");
         }
     }
 }
-    
+
+
 /* 
  * 
  *   // GET: Klub/Details/5

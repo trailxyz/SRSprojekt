@@ -1,19 +1,35 @@
 ﻿@using SRSprojekt.Models
 @model Klub
 @{
-    ViewBag.Title = "Azuriranje: " + Model.nazivK;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
+
+@if(ViewBag.NoviKlub)
+            {
+
+
+<h2>Kreiranje novog kluba</h2>
+}
+else
+            {
+                <h2>Azuriranje podataka o studentu</h2>
+                <h3>@Model.nazivK</h3>
+            }
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <table>
+    @Html.ValidationSummary(true, "Ispravite podatke.")
+<table>
+        @if (ViewBag.NoviKlub) { 
         <tr>
             <td>
                 @Html.LabelFor(model => model.id_kluba)
             </td>
             <td>@Html.TextBoxFor(model => model.id_kluba, new { disabled = false })</td>
         </tr>
+        }
         <tr>
             <td>
                 @Html.LabelFor(model => model.nazivK)
