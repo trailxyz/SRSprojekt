@@ -60,8 +60,10 @@ namespace SRSprojekt.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Azuriraj(Rezervator r)
+            
         {
-            if (ModelState.IsValid)
+            
+                if (ModelState.IsValid)
             {
                bazaPodataka.Entry(r).State=System.Data.Entity.EntityState.Modified;
                 bazaPodataka.SaveChanges();

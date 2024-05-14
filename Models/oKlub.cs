@@ -39,7 +39,6 @@ namespace SRSprojekt.Models
         [Column("mobKorisnik")]
         [Display(Name = "Mobitel odgovorne osobe")]
         [Required(ErrorMessage = "{0} je obavezan")]
-        [EmailAddress]
         public string Mobitel { get; set; }
     }
 }

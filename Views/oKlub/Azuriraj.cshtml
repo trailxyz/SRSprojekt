@@ -1,5 +1,5 @@
 ﻿@using SRSprojekt.Models
-@model Rezervator
+@model oKlub
 @{
     ViewBag.Title = "Azuriranje: " + Model.Ime + Model.Prezime;
 }
@@ -38,6 +38,15 @@
     </tr>
     <tr>
         <td>
+            @Html.LabelFor(model => model.Oib)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.Oib)
+            @Html.ValidationMessageFor(model => model.Oib)
+        </td>
+    </tr>
+    <tr>
+        <td>
             @Html.LabelFor(model => model.Email)
         </td>
         <td>
@@ -54,18 +63,10 @@
             @Html.ValidationMessageFor(model => model.Mobitel)
         </td>
     </tr>
-    <tr>
-        <td>
-            @Html.LabelFor(model => model.datumRod)
-        </td>
-        <td>
-            @Html.EditorFor(model => model.datumRod)
-            @Html.ValidationMessageFor(model => model.datumRod)
-        </td>
-    </tr>
+
 </table>
     @Html.ValidationSummary(true, "Spremanje nije uspjelo!");
     <p><input type="submit" value="Spremi" /></p>
-    @Html.ActionLink("Povratak bez spremanja", "Popis", "Rezervator")
+    @Html.ActionLink("Povratak bez spremanja", "Popis", "oKlub")
 }
 

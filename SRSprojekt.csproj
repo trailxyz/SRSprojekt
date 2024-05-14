@@ -250,6 +250,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KlubController.cs" />
+    <Compile Include="Controllers\oKlubController.cs" />
     <Compile Include="Controllers\RezervatorController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -322,6 +323,8 @@
     <Content Include="Views\Rezervator\Detalji.cshtml" />
     <Content Include="Views\Rezervator\Index.cshtml" />
     <Content Include="Views\Rezervator\Azuriraj.cshtml" />
+    <Content Include="Views\oKlub\Popis.cshtml" />
+    <Content Include="Views\oKlub\Azuriraj.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
