@@ -5,30 +5,31 @@
 
 }
 
-@if(ViewBag.NoviKlub)
-            {
+@if (ViewBag.NoviKlub)
+{
 
 
-<h2>Kreiranje novog kluba</h2>
+    <h2>Kreiranje novog kluba</h2>
 }
 else
-            {
-                <h2>Azuriranje podataka o studentu</h2>
-                <h3>@Model.nazivK</h3>
-            }
+{
+    <h2>Azuriranje podataka o studentu</h2>
+    <h3>@Model.nazivK</h3>
+}
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "Ispravite podatke.")
-<table>
-        @if (ViewBag.NoviKlub) { 
-        <tr>
-            <td>
-                @Html.LabelFor(model => model.id_kluba)
-            </td>
-            <td>@Html.TextBoxFor(model => model.id_kluba, new { disabled = false })</td>
-        </tr>
+    <table>
+        @if (ViewBag.NoviKlub)
+        {
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.id_kluba)
+                </td>
+                <td>@Html.TextBoxFor(model => model.id_kluba, new { disabled = false })</td>
+            </tr>
         }
         <tr>
             <td>
@@ -62,11 +63,18 @@ else
                 @Html.LabelFor(model => model.Cijenovni_Rang)
             </td>
             <td>
-                @Html.TextBoxFor(model => model.Cijenovni_Rang)
+                @Html.EnumDropDownListFor(model => model.Cijenovni_Rang)
                 @Html.ValidationMessageFor(model => model.Cijenovni_Rang)
             </td>
         </tr>
     </table>
+    <br />
+    <h5>Napomena</h5>
+    <h6>JE - Jeftin</h6>
+    <h6>SR - Srednje skup</h6>
+    <h6>SK - Skup</h6>
+    <h6>US - Ultra skup</h6>
+    <br />
     @Html.ValidationSummary(true, "Spremanje nije uspjelo!");
     <p><input type="submit" value="Spremi" /></p>
     @Html.ActionLink("Povratak bez spremanja", "Popis", "Klub")

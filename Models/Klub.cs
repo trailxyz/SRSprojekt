@@ -33,9 +33,9 @@ namespace SRSprojekt.Models
         public int brStol { get; set; } = 0;
 
         [Column("cijenovni_rang")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "{0} je obavezan podatak.")]
+        [Required(ErrorMessage = "{0} je obavezan podatak.")]
         [Display(Name = "Cijenovni rang kluba")]
-        public string Cijenovni_Rang { get; set; } = "";
+        public cijenovni_rang Cijenovni_Rang { get; set; } 
 
         public string PuniNaziv
         {

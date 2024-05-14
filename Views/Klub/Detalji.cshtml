@@ -2,14 +2,36 @@
 @model Klub
 @{
     ViewBag.Title = "Detalji";
+    string rang = "";
+    if (Model.Cijenovni_Rang == cijenovni_rang.JE)
+    {
+        rang = "Jeftin";
+    }
+    else if (Model.Cijenovni_Rang == cijenovni_rang.SR)
+    {
+        rang = "Srednje skup";
+    }
+    else if (Model.Cijenovni_Rang == cijenovni_rang.SK)
+    {
+        rang = "Skup";
+    }
+    else if (Model.Cijenovni_Rang == cijenovni_rang.US)
+    {
+        rang = "Ultra skup";
+    }
 
 
 }
 
-<h2>Detalji o klubu</h2>
+    <h2>Detalji o klubu</h2>
 
 
-Naziv kluba: @Model.nazivK <br />
-Adresa kluba: @Model.adresaK <br />
-Broj stolova: @Model.brStol <br />
+    Naziv kluba: @Model.nazivK
+    <br />
+    Adresa kluba: @Model.adresaK
+    <br />
+    Broj stolova: @Model.brStol
+    <br />
+    Cijenovni rang: @rang
+<br />
 

@@ -256,6 +256,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BazaDB.cs" />
+    <Compile Include="Models\c_rang.cs" />
     <Compile Include="Models\Klub.cs" />
     <Compile Include="Models\KluboviDB.cs" />
     <Compile Include="Models\OIB.cs" />

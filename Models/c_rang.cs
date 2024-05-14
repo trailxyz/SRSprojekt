@@ -7,6 +7,6 @@ namespace SRSprojekt.Models
 {
     public enum cijenovni_rang
     {
-        jeftin, srednje, skup, uskup
+       JE,SR,SK,US
     }
 }
