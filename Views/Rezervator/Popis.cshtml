@@ -1,11 +1,15 @@
 ﻿@using SRSprojekt.Models
-@model rezervatori
+@model List<Rezervator>
 @{
     ViewBag.Title = "Popis rezervatora";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Popis</h2>
+
+@Html.ActionLink("Dodavanje novog rezervatora", "Azuriraj")
+<br />
+<br />
 
 <table border="1">
     <tr>
@@ -17,8 +21,9 @@
         <th>Datum rodenja</th>
         <th>Detalji</th>
         <th>Azuriraj</th>
+        <th>Brisi</th>
     </tr>
-    @foreach (var rezervator in Model.VratiListu())
+    @foreach (var rezervator in Model)
     {
         <tr>
             <td>@rezervator.Id</td>
@@ -29,6 +34,7 @@
             <td>@rezervator.datumRod</td>
             <td>@Html.ActionLink("Info", "Detalji", new { id = rezervator.Id }) </td>
             <td>@Html.ActionLink("Azuriraj", "Azuriraj", new { id = rezervator.Id }) </td>
+            <td>@Html.ActionLink("Izbrisi", "Brisi", new { id = rezervator.Id }) </td>
         </tr>
     }
 </table>

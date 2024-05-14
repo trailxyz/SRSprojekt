@@ -328,6 +328,12 @@
     <Content Include="Views\oKlub\Azuriraj.cshtml" />
     <Content Include="Views\Klub\Brisi.cshtml" />
     <Content Include="Views\Klub\BrisiStatus.cshtml" />
+    <Content Include="Views\Rezervator\BrisiStatus.cshtml" />
+    <Content Include="Views\Rezervator\Brisi.cshtml" />
+    <Content Include="Views\oKlub\Index.cshtml" />
+    <Content Include="Views\oKlub\Brisi.cshtml" />
+    <Content Include="Views\oKlub\BrisiStatus.cshtml" />
+    <Content Include="Views\oKlub\Detalji.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

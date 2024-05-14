@@ -40,5 +40,14 @@ namespace SRSprojekt.Models
         [Display(Name = "Mobitel odgovorne osobe")]
         [Required(ErrorMessage = "{0} je obavezan")]
         public string Mobitel { get; set; }
+
+        public string ImePrezime
+        {
+            get 
+            {
+                return Ime + " " + Prezime;
+            }
+
+        }
     }
 }

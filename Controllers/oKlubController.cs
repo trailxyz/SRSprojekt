@@ -1,8 +1,5 @@
 ﻿using SRSprojekt.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SRSprojekt.Controllers
@@ -53,7 +50,7 @@ namespace SRSprojekt.Controllers
             {
                 ovlasteni = new oKlub();
                 ViewBag.Title = "Unos nove ovlastene osobe kluba";
-                ViewBag.NovaOsoba = true;
+                ViewBag.NoviOvlasteni = true;
                 // return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
             else
@@ -65,7 +62,7 @@ namespace SRSprojekt.Controllers
                     return HttpNotFound();
                 }
                 ViewBag.Title = "Azuriranje podataka o ovlastenoj osobi kluba";
-                ViewBag.NovaOsoba = false;
+                ViewBag.NoviOvlasteni = false;
 
             }
 
@@ -95,7 +92,49 @@ namespace SRSprojekt.Controllers
 
                 return RedirectToAction("Popis");
             }
+            if (o.Id == 0)
+            {
+                ViewBag.Title = "Dodavanje ovlastene osobe";
+                ViewBag.NoviOvlasteni = true;
+            }
+            else
+            {
+                ViewBag.Title = "Azuriranje podataka o ovlastenoj osobi";
+                ViewBag.NoviOvlasteni = false;
+            }
             return View(o);
+
+        }
+
+        public ActionResult Brisi(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Popis");
+            }
+
+            oKlub o = bazaPodataka.ovlastenaosobakluba.FirstOrDefault(x => x.Id == id);
+
+            if (o == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Title = "Potvrda brisanja ovlastene osobe";
+            return View(o);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Brisi(int id)
+        {
+            oKlub o = bazaPodataka.ovlastenaosobakluba.FirstOrDefault(x => x.Id == id);
+            if (o == null)
+            {
+                return HttpNotFound();
+            }
+            bazaPodataka.ovlastenaosobakluba.Remove(o);
+            bazaPodataka.SaveChanges();
+            return View("BrisiStatus");
         }
     }
 }

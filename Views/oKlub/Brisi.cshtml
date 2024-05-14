@@ -1,0 +1,19 @@
+﻿@using SRSprojekt.Models
+@model oKlub
+@{
+    ViewBag.Title = "Brisi";
+}
+
+<h2>@ViewBag.Title</h2>
+
+Jeste li sigurni da zelite izbrisati ovlastenu osobu @Model.ImePrezime?
+
+@using (Html.BeginForm("Brisi", "oKlub"))
+{
+    @Html.AntiForgeryToken();
+    <input type="submit" value="Izbrisi" />
+    <br />
+    <br />
+    @Html.ActionLink("Odustani", "Popis");
+}
+

@@ -104,7 +104,7 @@ namespace SRSprojekt.Controllers
 
         public ActionResult Brisi(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return RedirectToAction("Popis");
             }
@@ -124,10 +124,10 @@ namespace SRSprojekt.Controllers
         public ActionResult Brisi(int id)
         {
             Klub k = bazaPodataka.KlubBaza.FirstOrDefault(x => x.id_kluba == id);
-                if(k == null)
-                {
+            if (k == null)
+            {
                 return HttpNotFound();
-                }
+            }
             bazaPodataka.KlubBaza.Remove(k);
             bazaPodataka.SaveChanges();
             return View("BrisiStatus");

@@ -21,8 +21,8 @@ namespace SRSprojekt.Controllers
 
         public ActionResult Popis()
         {
-            BazaDB db = new BazaDB();
-            return View(db);
+            var njanjanja = bazaPodataka.RezervatorBaza.ToList();
+            return View(njanjanja);
         }
 
         public ActionResult Detalji(int? id)
@@ -45,15 +45,25 @@ namespace SRSprojekt.Controllers
 
         public ActionResult Azuriraj(int? id)
         {
+            Rezervator rezervator = null;
             if (!id.HasValue)
             {
-                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+                rezervator = new Rezervator();
+                ViewBag.Title = "Unos novog rezervatora";
+                ViewBag.NoviRezervator = true;
+                // return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
-            BazaDB rezervatori = new BazaDB();
-            Rezervator rezervator = rezervatori.RezervatorBaza.FirstOrDefault(x => x.Id == id);
-            if (rezervator == null)
+            else
             {
-                return HttpNotFound();
+
+                rezervator = bazaPodataka.RezervatorBaza.FirstOrDefault(x => x.Id == id);
+                if (rezervator == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.Title = "Azuriranje podataka o rezervatoru";
+                ViewBag.NoviRezervator = false;
+
             }
             return View(rezervator);
         }
@@ -62,15 +72,68 @@ namespace SRSprojekt.Controllers
         public ActionResult Azuriraj(Rezervator r)
             
         {
-            
-                if (ModelState.IsValid)
+            DateTime punoljetnost = DateTime.Now.AddYears(-18);
+            if(r.datumRod > punoljetnost)
             {
-               bazaPodataka.Entry(r).State=System.Data.Entity.EntityState.Modified;
+                ModelState.AddModelError("datumRod", "Rezervator mora biti osoba starija od 18");
+            }
+            if (ModelState.IsValid)
+            {
+                if (r.Id != 0)
+                {
+                    bazaPodataka.Entry(r).State = System.Data.Entity.EntityState.Modified;
+                }
+                else
+                {
+                    bazaPodataka.RezervatorBaza.Add(r);
+                }
                 bazaPodataka.SaveChanges();
+
+
                 return RedirectToAction("Popis");
             }
-           
+            if (r.Id == 0)
+            {
+                ViewBag.Title = "Kreiranje rezervatora";
+                ViewBag.NoviRezervator = true;
+            }
+            else
+            {
+                ViewBag.Title = "Azuriranje podataka o rezervatoru";
+                ViewBag.NoviRezervator = false;
+            }
+
             return View(r);
+        }
+        public ActionResult Brisi(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Popis");
+            }
+
+            Rezervator re = bazaPodataka.RezervatorBaza.FirstOrDefault(x => x.Id == id);
+
+            if (re == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Title = "Potvrda brisanja kluba";
+            return View(re);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Brisi(int id)
+        {
+            Rezervator re = bazaPodataka.RezervatorBaza.FirstOrDefault(x => x.Id == id);
+            if (re == null)
+            {
+                return HttpNotFound();
+            }
+            bazaPodataka.RezervatorBaza.Remove(re);
+            bazaPodataka.SaveChanges();
+            return View("BrisiStatus");
         }
     }
 }

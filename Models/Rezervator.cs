@@ -43,5 +43,13 @@ namespace SRSprojekt.Models
         [Required(ErrorMessage = "{0} je obavezan")]
         [DataType(DataType.Date)]
         public DateTime datumRod { get; set; }
+
+        public string ImePrezime
+        {
+            get
+            {
+                return Ime + " " + Prezime;
+            }
+        }
     }
 }

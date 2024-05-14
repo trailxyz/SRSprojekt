@@ -1,8 +1,7 @@
 ﻿@using SRSprojekt.Models
 @model Klub
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-
+    ViewBag.Title = "Azuriranje: " + Model.PuniNaziv;
 }
 
 @if (ViewBag.NoviKlub)
@@ -13,7 +12,7 @@
 }
 else
 {
-    <h2>Azuriranje podataka o studentu</h2>
+    <h2>Azuriranje podataka o klubu</h2>
     <h3>@Model.nazivK</h3>
 }
 
