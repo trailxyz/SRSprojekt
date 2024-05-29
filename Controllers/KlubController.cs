@@ -1,5 +1,8 @@
 ﻿using SRSprojekt.Models;
+using System;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Web.Mvc;
 
 namespace SRSprojekt.Controllers
@@ -19,11 +22,11 @@ namespace SRSprojekt.Controllers
 
         public ActionResult Popis()
         {
-            var pizdamaterina = bazaPodataka.KlubBaza.ToList();
+            var nestosmijesno = bazaPodataka.KlubBaza.ToList();
 
 
 
-            return View(pizdamaterina);
+            return View(nestosmijesno);
         }
 
         public ActionResult Detalji(int? id)
@@ -95,7 +98,7 @@ namespace SRSprojekt.Controllers
             }
             else
             {
-                ViewBag.Title = "Azuriranje podataka o studentu";
+                ViewBag.Title = "Azuriranje podataka o klubu";
                 ViewBag.NoviKlub = false;
             }
             return View(k);
@@ -131,6 +134,49 @@ namespace SRSprojekt.Controllers
             bazaPodataka.KlubBaza.Remove(k);
             bazaPodataka.SaveChanges();
             return View("BrisiStatus");
+        }
+
+        public ActionResult SendEmail()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult SendEmail(string receiver, string subject, string message)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var receiverEmail = new MailAddress("paup@mislovic.com", "SRS sustav");
+                    var senderEmail = new MailAddress(receiver, "Posiljatelj");
+                    var password = "Paup747";
+                    var sub = subject;
+                    var body = message;
+                    var smtp = new SmtpClient
+                    {
+                        Host = "mail.mislovic.com",
+                        Port = 587,
+                        EnableSsl = false,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(receiverEmail.Address, password)
+                    };
+                    using (var mess = new MailMessage(receiverEmail, senderEmail)
+                    {
+                        Subject = subject,
+                        Body = body
+                    })
+                    {
+                        smtp.Send(mess);
+                    }
+                    return View();
+                }
+            }
+            catch (Exception)
+            {
+                ViewBag.Error = "Some Error";
+            }
+            return View();
         }
     }
 }

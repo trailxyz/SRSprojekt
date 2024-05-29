@@ -1,0 +1,24 @@
+﻿@using SRSprojekt.Models
+@using PagedList.Mvc
+@model PagedList.IPagedList<Klub>
+    @{ 
+        AjaxOptions ajaxOptions = new AjaxOptions()
+        {
+            UpdateTargetId = "popisKlubova",
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "GET",
+            OnBegin = "LoadingRow"
+        };
+    }
+<div id="popisKlubova">
+    <table id="tableKlubovi" class=" table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>
+                    @Ajax.ActionLink("Naziv", "PopisPartial", new {naz})
+                </th>
+            </tr>
+        </thead>
+    </table>
+</div>

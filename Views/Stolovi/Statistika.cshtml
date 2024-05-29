@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Statistika";
+}
+
+<h2>Statistika</h2>
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script>
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                theme: "light2",
+                title: {
+                    text: "Number of Objects by Boolean Value"
+                },
+                axisY: {
+                    title: "Count"
+                },
+                data: [{
+                    type: "column",
+                    dataPoints: @Html.Raw(ViewBag.DataPoints)
+                }]
+            });
+            chart.render();
+        }
+    </script>
+</head>
+<body>
+    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+</body>
+</html>

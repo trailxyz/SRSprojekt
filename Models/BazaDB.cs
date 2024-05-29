@@ -15,6 +15,9 @@ namespace SRSprojekt.Models
         public DbSet<Klub> KlubBaza { get; set; }
         public DbSet<Rezervator> RezervatorBaza { get; set; }
         public DbSet<oKlub> ovlastenaosobakluba { get; set; }
+        public DbSet<Stolovi> StoloviBaza { get; set; }
+        public DbSet<ovlast> OvlastBaza { get; set; }
+        public DbSet<Korisnik> KorisnikBaza { get; set; }
     
 
     }

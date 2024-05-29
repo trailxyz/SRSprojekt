@@ -122,6 +122,12 @@
     <Reference Include="MySql.Data.EntityFramework, Version=8.0.19.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>packages\MySql.Data.EntityFramework.8.0.19\lib\net452\MySql.Data.EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Pomelo.JsonObject, Version=2.2.1.0, Culture=neutral, PublicKeyToken=2cc498582444921b, processorArchitecture=MSIL">
       <HintPath>packages\Pomelo.JsonObject.2.2.1\lib\netstandard2.0\Pomelo.JsonObject.dll</HintPath>
     </Reference>
@@ -250,19 +256,29 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KlubController.cs" />
+    <Compile Include="Controllers\KorisniciController.cs" />
     <Compile Include="Controllers\oKlubController.cs" />
     <Compile Include="Controllers\RezervatorController.cs" />
+    <Compile Include="Controllers\StoloviController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Misc\curUser.cs" />
+    <Compile Include="Misc\curUserSM.cs" />
+    <Compile Include="Misc\OvlastiKorisnik.cs" />
+    <Compile Include="Misc\pwdgen.cs" />
     <Compile Include="Models\BazaDB.cs" />
     <Compile Include="Models\c_rang.cs" />
     <Compile Include="Models\Klub.cs" />
     <Compile Include="Models\KluboviDB.cs" />
+    <Compile Include="Models\Korisnik.cs" />
+    <Compile Include="Models\KPrijava.cs" />
     <Compile Include="Models\OIB.cs" />
     <Compile Include="Models\oKlub.cs" />
+    <Compile Include="Models\ovlast.cs" />
     <Compile Include="Models\Rezervator.cs" />
     <Compile Include="Models\rezervatori.cs" />
+    <Compile Include="Models\Stolovi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +298,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -297,6 +314,8 @@
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -334,6 +353,16 @@
     <Content Include="Views\oKlub\Brisi.cshtml" />
     <Content Include="Views\oKlub\BrisiStatus.cshtml" />
     <Content Include="Views\oKlub\Detalji.cshtml" />
+    <Content Include="Views\Stolovi\Create.cshtml" />
+    <Content Include="Views\Stolovi\Delete.cshtml" />
+    <Content Include="Views\Stolovi\Details.cshtml" />
+    <Content Include="Views\Stolovi\Edit.cshtml" />
+    <Content Include="Views\Stolovi\Index.cshtml" />
+    <Content Include="Views\Stolovi\Statistika.cshtml" />
+    <Content Include="Views\Klub\SendEmail.cshtml" />
+    <Content Include="Views\Klub\_PartialPopis.cshtml" />
+    <Content Include="Views\Korisnici\Index.cshtml" />
+    <Content Include="Views\Korisnici\Prijava.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

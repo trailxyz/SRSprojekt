@@ -1,0 +1,34 @@
+﻿@model SRSprojekt.Models.KPrijava
+@{
+    ViewBag.Title = "Prijava";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Prijava","Korisnici", new {returnURL = ViewBag.ReturnUrl}, FormMethod.Post, null))
+            {
+                @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.KorisnickoIme, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.KorisnickoIme, new { htmlAttributres = new { @class = "form-control" } })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.lozinka, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.lozinka, new { htmlAttributres = new { @class = "form-control" } })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-success">
+                Prijava
+            </button>
+        </div>
+    </div>
+</div>
+            }
+

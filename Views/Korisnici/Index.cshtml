@@ -1,0 +1,29 @@
+﻿@using SRSprojekt.Models
+@model List<Korisnik>
+@{
+    ViewBag.Title = "Popis korisnika";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Korisniko ime</th>
+            <th>Email</th>
+            <th>Prezime i ime</th>
+            <th>Ovlast</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var kor in Model)
+            {
+                <tr>
+                    <td>@kor.KorisnikName</td>
+                    <td>@kor.Email</td>
+                    <td>@kor.PrIm</td>
+                    <td>@(kor.ovlast?.Naziv)</td>
+                </tr>
+            }
+    </tbody>
+</table>

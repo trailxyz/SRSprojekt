@@ -1,4 +1,5 @@
 ﻿using SRSprojekt.Models;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -17,11 +18,16 @@ namespace SRSprojekt.Controllers
             return View();
         }
 
-        public ActionResult Popis()
+        public ActionResult Popis(string ime)
         {
             var oklub = bazaPodataka.ovlastenaosobakluba.ToList();
 
-
+           // string kombajn = ime + prezime;
+           
+            if (!String.IsNullOrEmpty(ime))
+            {
+                oklub = oklub.Where(x => x.ImePrezime.ToUpper().Contains(ime.ToUpper())).ToList();
+            }
 
             return View(oklub);
         }
@@ -136,5 +142,6 @@ namespace SRSprojekt.Controllers
             bazaPodataka.SaveChanges();
             return View("BrisiStatus");
         }
+        
     }
 }

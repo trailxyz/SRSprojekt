@@ -53,10 +53,17 @@
     }
 </style>
 
-@Html.ActionLink("Dodavanje nove ovlastene osobe", "Azuriraj")
-<br />
-<br />
+<a href="@Url.Action("Azuriraj", "oKlub")" class="btn btn-success">
+     Kreiranje nove ovlastene osobe
+</a>
 
+@using (Html.BeginForm("Popis", "oKlub", FormMethod.Get))
+            {
+                <p>
+                    Ime i/ili prezime: @Html.TextBox("ime")
+                    <input type="submit" value="Trazi" />
+                </p>
+            }
 
 <div class="center-table">
     <table>
@@ -67,9 +74,8 @@
             <th>OIB</th>
             <th>Mobitel</th>
             <th>Email</th>
-            <th>Detalji</th>
-            <th>Azuriraj</th>
-            <th>Brisi</th>
+            <th>Akcije</th>
+            
         </tr>
         @foreach (var ovlasteni in Model)
         {
@@ -80,9 +86,9 @@
                 <td>@ovlasteni.Oib</td>
                 <td>@ovlasteni.Mobitel</td>
                 <td>@ovlasteni.Email</td>
-                <td><a href="@Url.Action("Detalji", new { id = ovlasteni.Id })" class="btn btn-info btn-sm">Info</a></td>
-                <td><a href="@Url.Action("Azuriraj", new { id = ovlasteni.Id })" class="btn btn-secondary btn-sm">Azuriraj</a></td>
-                <td><a href="@Url.Action("Brisi", new { id = ovlasteni.Id })" class="btn btn-secondary btn-sm">Brisi</a></td>
+                <td><a href="@Url.Action("Detalji", new { id = ovlasteni.Id })" class="btn btn-info btn-sm">Info</a>
+                <a href="@Url.Action("Azuriraj", new { id = ovlasteni.Id })" class="btn btn-secondary btn-sm">Azuriraj</a>
+                <a href="@Url.Action("Brisi", new { id = ovlasteni.Id })" class="btn btn-secondary btn-sm">Brisi</a></td>
             </tr>
         }
     </table>

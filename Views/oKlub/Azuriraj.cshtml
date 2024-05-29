@@ -15,7 +15,7 @@ else
     <h2>Azuriranje podataka o ovlastenoj osobi</h2>
     <h3>@Model.ImePrezime</h3>
 }
-@using (Html.BeginForm())
+@using (Html.BeginForm("Azuriraj","oKlub", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "Ispravi greske.");
