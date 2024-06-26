@@ -104,7 +104,7 @@ namespace SRSprojekt.Controllers
                 }
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 model.Lozinka = Misc.pwdgen.Hash(model.UnosLozinka);
                 model.sifraOvlasti = "RE";
@@ -117,6 +117,16 @@ namespace SRSprojekt.Controllers
 
             var ovlasti = bazaDB.OvlastBaza.OrderBy(x => x.Naziv).ToList();
             ViewBag.Ovlasti = ovlasti;
+
+          
+            foreach (var key in ModelState.Keys)
+            {
+                var errors = ModelState[key].Errors;
+                foreach (var error in errors)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Key: {key}, Error: {error.ErrorMessage}");
+                }
+            }
 
             return View(model);
         }

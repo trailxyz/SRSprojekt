@@ -15,11 +15,11 @@ namespace SRSprojekt.Controllers
 
         private BazaDB _context = new BazaDB();
 
-        public ActionResult Index(bool? zauzetost = null) // Use nullable bool here
+        public ActionResult Index(bool? zauzetost = null) 
         {
-            var itemsData = _context.StoloviBaza.ToList(); // Fetch all data from Stolovi table
+            var itemsData = _context.StoloviBaza.ToList(); 
 
-            ViewBag.ItemsData = itemsData; // Pass itemsData to the view bag
+            ViewBag.ItemsData = itemsData;
 
             return View();
         }
