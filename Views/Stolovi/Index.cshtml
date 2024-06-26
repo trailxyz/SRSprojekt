@@ -1,5 +1,4 @@
-﻿@model IEnumerable<SRSprojekt.Models.Stolovi>
-
+﻿@model List<SRSprojekt.Models.Stolovi>
 @{
     ViewBag.Title = "Index";
 }
@@ -7,36 +6,47 @@
 <h2>Index</h2>
 
 <p>
-   <a href="@Url.Action("Create","Stolovi")" class="btn btn-success">
-       Kreiranje novog stola
+    <a href="@Url.Action("Create","Stolovi")" class="btn btn-success">
+        Kreiranje novog stola
 
-   </a>
+    </a>
 </p>
+<p>
+    <a href="@Url.Action("IspisStolova", "Stolovi",
+                new { rez = ViewBag.rez, brst = ViewBag.brst,
+                    zau = ViewBag.zau, sort = ViewBag.Sortiranje })" class="btn btn-primary">
+        <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Kreiraj PDF
+    </a>
+</p>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.broj_stola)
+            Broj stola
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.zauzetost)
+            Zauzetost
         </th>
-        <th></th>
+        <th>
+            Rezervator
+        </th>
+
     </tr>
 
-    @foreach (var item in Model.OrderBy(item => int.Parse(item.Sifra))) {
-    <tr>
+    @foreach (var stol in Model)
+    {
+        <tr>
+            <td>@stol.broj_stola</td>
+            <td>@stol.zauzetost</td>
+            <td>@(stol.aktivniR?.ImePrezime)</td>
+        </tr>
+
         <td>
-            @Html.DisplayFor(modelItem => item.broj_stola)
+            @Html.ActionLink("Azuriraj", "Edit", new { id = stol.Sifra }, new { @class = "btn btn-warning btn sm" }) |
+            @Html.ActionLink("Detalji", "Details", new { id = stol.Sifra }, new { @class = "btn btn-info btn sm" }) |
+            @Html.ActionLink("Izbrisi", "Delete", new { id = stol.Sifra }, new { @class = "btn btn-danger btn sm" })
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.zauzetost)
-        </td>
-        <td>
-            @Html.ActionLink("Azuriraj", "Edit", new { id=item.Sifra }, new {@class = "btn btn-warning btn sm"}) |
-            @Html.ActionLink("Detalji", "Details", new { id=item.Sifra }, new { @class = "btn btn-info btn sm" }) |
-            @Html.ActionLink("Izbrisi", "Delete", new { id=item.Sifra }, new { @class = "btn btn-danger btn sm" })
-        </td>
-    </tr>
+
     }
 
 </table>

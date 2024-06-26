@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Column Layout</title>
+   
+</head>
+<body>
+    <div class="container">
+        <div class="column">
+            <img class="container-sm" src="~/Slike/skica.jpg" alt="Skica stolova">
+        </div>
+        <div class="column">
+            <form method="post" action="SendEmail">
+                <div class="container">
+                    <span class="form-control-static"> Ime: </span>
+                    <input class="form-control" type="text" name="ime" /> <br />
+                    <span class="form-control-static"> Prezime: </span>
+                    <input class="form-control" type="text" name="prezime" /> <br />
+                    <span class="form-control-static"> Broj Telefona: </span>
+                    <input class="form-control" type="text" name="brT" /> <br />
+                    <span class="form-control-static"> Email: </span>
+                    <input class="form-control" type="text" name="email" /> <br />
+                    <span class="form-control-static"> Broj stola: </span> <input class="form-control" type="text" name="BrS" />
+                    <br /> <span class="form-control-static"> Dodatni zahtjev: </span> <input class="form-control" type="text" name="message" />
+                    <br /> <input class="btn btn-primary" type="submit" value="Send" />
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

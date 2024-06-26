@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "Stolovi Index";
+}
+
+<h2>Stolovi Chart</h2>
+
+<canvas id="stoloviChart" width="400" height="200"></canvas>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var itemsData = @Html.Raw(Json.Encode(ViewBag.ItemsData));
+
+            console.log('itemsData:', itemsData); // Check itemsData in console
+
+            var slobodanCount = itemsData.filter(item => item.zauzetost === true).length;
+            var zauzetCount = itemsData.filter(item => item.zauzetost === false).length;
+
+            console.log('Slobodan count:', slobodanCount);
+            console.log('Zauzet count:', zauzetCount);
+
+            var ctx = document.getElementById('stoloviChart').getContext('2d');
+
+            var data = {
+                labels: ['Slobodan (1)', 'Zauzet (0)'],
+                datasets: [{
+                    label: 'Zauzetost stolova',
+                    data: [slobodanCount, zauzetCount],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.6)', // Slobodan (1)
+                        'rgba(255, 99, 132, 0.6)'  // Zauzet (0)
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            var options = {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false, 
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.yLabel;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true 
+                    }
+                }
+            };
+
+            var chart = new Chart(ctx, {
+                type: 'pie',
+                data: data,
+                options: options
+            });
+        });
+    </script>
+}

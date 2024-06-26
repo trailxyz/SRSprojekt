@@ -12,7 +12,7 @@ namespace SRSprojekt.Models
     {
         [Required]
         [Key]
-        public long id_kluba { get; set; }
+        public int id_kluba { get; set; }
 
         [Column("nazivK")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "{0} je obavezan podatak.")]

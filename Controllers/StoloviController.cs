@@ -1,29 +1,40 @@
-﻿using System;
+﻿using SRSprojekt.Misc;
+using SRSprojekt.Models;
+using SRSprojekt.Reports;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using Newtonsoft.Json;
-using Org.BouncyCastle.Utilities;
-using SRSprojekt.Models;
 
 namespace SRSprojekt.Controllers
 {
+    [Authorize(Roles = OvlastiKorisnik.OvlastenaOsobaKluba + "," + OvlastiKorisnik.Administrator)]
+
     public class StoloviController : Controller
     {
-        private BazaDB db = new BazaDB()
+        public BazaDB db = new BazaDB()
             ;
-        
-        // GET: Stolovis
+
         public ActionResult Index()
         {
-            return View(db.StoloviBaza.ToList());
+            List<Stolovi> stolovi;
+
+            using (var dbContext = new BazaDB())
+            {
+
+                stolovi = dbContext.StoloviBaza.Include(s => s.aktivniR).ToList();
+            }
+
+
+            return View(stolovi);
+
         }
 
-        // GET: Stolovis/Details/5
         public ActionResult Details(string id)
         {
             if (id == null)
@@ -38,15 +49,11 @@ namespace SRSprojekt.Controllers
             return View(stolovi);
         }
 
-        // GET: Stolovis/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Stolovis/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Sifra,broj_stola,zauzetost")] Stolovi stolovi)
@@ -61,7 +68,6 @@ namespace SRSprojekt.Controllers
             return View(stolovi);
         }
 
-        // GET: Stolovis/Edit/5
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -73,15 +79,14 @@ namespace SRSprojekt.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.RezervatorList = new SelectList(db.RezervatorBaza, "Id", "ImePrezime", stolovi.sifraR);
             return View(stolovi);
         }
 
-        // POST: Stolovis/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Sifra,broj_stola,zauzetost")] Stolovi stolovi)
+        public ActionResult Edit([Bind(Include = "Sifra,broj_stola,zauzetost,sifraR")] Stolovi stolovi)
         {
             if (ModelState.IsValid)
             {
@@ -89,10 +94,10 @@ namespace SRSprojekt.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.RezervatorList = new SelectList(db.RezervatorBaza, "Id", "ImePrezime", stolovi.sifraR);
             return View(stolovi);
         }
 
-        // GET: Stolovis/Delete/5
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -107,7 +112,6 @@ namespace SRSprojekt.Controllers
             return View(stolovi);
         }
 
-        // POST: Stolovis/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
@@ -126,29 +130,92 @@ namespace SRSprojekt.Controllers
             }
             base.Dispose(disposing);
         }
-        public ActionResult Statistika() {
-            var dataPoints = db.StoloviBaza
-          .Select(item => new { item.zauzetost })
-          .GroupBy(item => item.zauzetost)
-          .Select(group => new
-          {
-              Label = group.Key ? "Active" : "Inactive",
-              Y = group.Count()
-          })
-          .ToList();
 
-            if (!dataPoints.Any())
+        [HttpPost]
+        public ActionResult reset()
+        {
+            try
             {
-                dataPoints.Add(new { Label = "No Data", Y = 0 });
+                var items = db.StoloviBaza.Where(e => e.zauzetost == true).ToList();
+                foreach (var item in items)
+                {
+                    item.zauzetost = false;
+
+                    if (string.IsNullOrEmpty(item.Sifra))
+                    {
+                        item.Sifra = "0"; 
+                    }
+                    if (string.IsNullOrEmpty(item.broj_stola))
+                    {
+                        item.broj_stola = "Stol 1"; 
+                    }
+                }
+                db.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var validationErrors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Entity: {0} Property: {1} Error: {2}", validationErrors.Entry.Entity.GetType().Name, validationError.PropertyName, validationError.ErrorMessage);
+                    }
+                }
+                throw; 
             }
 
-            ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
-
-           
-
-            
-
-            return View();
+            return RedirectToAction("Index");
         }
+        [AllowAnonymous]
+        public ActionResult IspisStolova(string broj_stola, string zauzetost, string rez, string sort, int? page)
+        {
+          
+
+            ViewBag.Sortiranje = sort;
+            ViewBag.NazivSort = String.IsNullOrEmpty(sort) ? "naziv_desc" : "";
+            ViewBag.SmjerSort = sort == "rez" ? "brS" : "rez";
+            ViewBag.rez = rez;
+            ViewBag.brst = broj_stola;
+            ViewBag.zau = zauzetost;
+
+            var stolovi = db.StoloviBaza.ToList();
+
+         
+            if (!String.IsNullOrWhiteSpace(broj_stola))
+            {
+                stolovi = stolovi.Where(x => x.broj_stola == broj_stola).ToList();
+            }
+
+
+            if (!String.IsNullOrWhiteSpace(rez))
+            {
+                stolovi = stolovi.Where(x => x.aktivniR.ImePrezime == rez).ToList();
+            }
+
+            switch (sort)
+            {
+                case "naziv_desc":
+                    stolovi = stolovi.OrderByDescending(s => s.aktivniR.ImePrezime).ToList();
+                    break;
+                case "rez":
+                    stolovi = stolovi.OrderBy(s => s.zauzetost).ToList();
+                    break;
+                case "brS":
+                    stolovi = stolovi.OrderByDescending(s => s.broj_stola).ToList();
+                    break;
+                default:
+                    stolovi = stolovi.OrderBy(s => s.aktivniR?.ImePrezime).ToList();
+                    break;
+            }
+
+            RezervacijeReport rezervacijeReport = new RezervacijeReport();
+            rezervacijeReport.ListaStolova(stolovi);
+
+            return File(rezervacijeReport.Podaci, System.Net.Mime.MediaTypeNames.Application.Pdf,
+                "PopisStolova.pdf");
+        }
+
+
+
     }
 }

@@ -10,6 +10,7 @@ using System.Web.Security;
 
 namespace SRSprojekt.Controllers
 {
+    [Authorize(Roles = OvlastiKorisnik.Administrator)]
     public class KorisniciController : Controller
     {
         BazaDB bazaDB = new BazaDB();
@@ -67,12 +68,21 @@ namespace SRSprojekt.Controllers
             ModelState.AddModelError("", "Neispravno korisnicko ime ili lozinka");
             return View(model);
         }
+        [OverrideAuthorization]
+        [Authorize]
         public ActionResult Odjava()
         {
             FormsAuthentication.SignOut();
             Session.Abandon();
             return RedirectToAction("Index", "Home");
         }
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Registracija()
+        {
+            return View();
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Registracija(Korisnik model)
@@ -82,7 +92,7 @@ namespace SRSprojekt.Controllers
                 var korImeZauzeto = bazaDB.KorisnikBaza.Any(x => x.KorisnikName == model.KorisnikName);
                 if (korImeZauzeto)
                 {
-                    ModelState.AddModelError("KorisnickoIme", "Korisničko ime je već zauzeto");
+                    ModelState.AddModelError("KorisnikName", "Korisničko ime je već zauzeto");
                 }
             }
             if (!String.IsNullOrWhiteSpace(model.Email))
@@ -97,7 +107,7 @@ namespace SRSprojekt.Controllers
             if (ModelState.IsValid)
             {
                 model.Lozinka = Misc.pwdgen.Hash(model.UnosLozinka);
-                model.sifraOvlasti = "AD";
+                model.sifraOvlasti = "RE";
 
                 bazaDB.KorisnikBaza.Add(model);
                 bazaDB.SaveChanges();

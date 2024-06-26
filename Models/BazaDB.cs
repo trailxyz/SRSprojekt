@@ -18,7 +18,15 @@ namespace SRSprojekt.Models
         public DbSet<Stolovi> StoloviBaza { get; set; }
         public DbSet<ovlast> OvlastBaza { get; set; }
         public DbSet<Korisnik> KorisnikBaza { get; set; }
-    
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+          
+            modelBuilder.Entity<Stolovi>()
+                .HasOptional(s => s.aktivniR)
+                .WithMany(r => r.Stolovi)
+                .HasForeignKey(s => s.sifraR);
+        }
 
     }
 }

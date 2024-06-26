@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using System.Runtime.CompilerServices;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SRSprojekt.Models
 {
@@ -26,7 +23,6 @@ namespace SRSprojekt.Models
         [Required]
         public string Prezime { get; set; }
 
-
         [Column("emailRez")]
         [Display(Name = "Email rezervatora")]
         [Required(ErrorMessage = "{0} je obavezan")]
@@ -39,7 +35,7 @@ namespace SRSprojekt.Models
         public string Mobitel { get; set; }
 
         [Column("datumRodRez")]
-        [Display(Name = "Datum rodenja rezervatora")]
+        [Display(Name = "Datum rođenja rezervatora")]
         [Required(ErrorMessage = "{0} je obavezan")]
         [DataType(DataType.Date)]
         public DateTime datumRod { get; set; }
@@ -51,5 +47,7 @@ namespace SRSprojekt.Models
                 return Ime + " " + Prezime;
             }
         }
+
+        public virtual ICollection<Stolovi> Stolovi { get; set; }
     }
 }

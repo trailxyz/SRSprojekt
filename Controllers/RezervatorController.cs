@@ -1,12 +1,15 @@
-﻿using SRSprojekt.Models;
+﻿using SRSprojekt.Misc;
+using SRSprojekt.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace SRSprojekt.Controllers
 {
+    [Authorize(Roles = OvlastiKorisnik.OvlastenaOsobaKluba + "," + OvlastiKorisnik.Administrator)  ]
     public class RezervatorController : Controller
     {
         BazaDB bazaPodataka = new BazaDB();
@@ -61,7 +64,7 @@ namespace SRSprojekt.Controllers
                 {
                     return HttpNotFound();
                 }
-                ViewBag.Title = "Azuriranje podataka o rezervatoru";
+                ViewBag.Title = "Ažuriranje podataka o rezervatoru";
                 ViewBag.NoviRezervator = false;
 
             }

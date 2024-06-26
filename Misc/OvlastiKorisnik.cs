@@ -9,5 +9,6 @@ namespace SRSprojekt.Misc
     {
         public const string Administrator = "AD";
         public const string OvlastenaOsobaKluba = "KL";
+        public const string Rezervator = "RE";
     }
 }

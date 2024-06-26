@@ -1,10 +1,12 @@
-﻿using SRSprojekt.Models;
+﻿using SRSprojekt.Misc;
+using SRSprojekt.Models;
 using System;
 using System.Linq;
 using System.Web.Mvc;
 
 namespace SRSprojekt.Controllers
 {
+    [Authorize(Roles = OvlastiKorisnik.Administrator)]
     public class oKlubController : Controller
     {
 

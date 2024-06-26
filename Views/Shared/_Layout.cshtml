@@ -40,11 +40,32 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">@Html.ActionLink("Klubovi", "Popis", "Klub", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Rezervatori", "Popis", "Rezervator", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Ovlastene osobe klubova", "Popis", "oKlub", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Stolovi", "Index", "Stolovi", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Korisnici", "Index", "Korisnici", new { area = "" }, new { @class = "nav-link" })</li>
+                    @if (User.Identity.IsAuthenticated && (User as SRSprojekt.Misc.curUser).IsInRole(SRSprojekt.Misc.OvlastiKorisnik.Administrator))
+                    {
+                        <li class="nav-item">@Html.ActionLink("Klubovi", "Popis", "Klub", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                    @if (User.Identity.IsAuthenticated && (User as SRSprojekt.Misc.curUser).IsInRole(SRSprojekt.Misc.OvlastiKorisnik.Administrator))
+                    {
+                        <li class="nav-item">@Html.ActionLink("Ovlastene osobe klubova", "Popis", "oKlub", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                    @if (User.Identity.IsAuthenticated && (User as SRSprojekt.Misc.curUser).IsInRole(SRSprojekt.Misc.OvlastiKorisnik.OvlastenaOsobaKluba))
+                    {
+                        <li class="nav-item">@Html.ActionLink("Rezervatori", "Popis", "Rezervator", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                    @if (User.Identity.IsAuthenticated && (User as SRSprojekt.Misc.curUser).IsInRole(SRSprojekt.Misc.OvlastiKorisnik.OvlastenaOsobaKluba))
+                    {
+                        <li class="nav-item">@Html.ActionLink("Stolovi", "Index", "Stolovi", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                    @if (User.Identity.IsAuthenticated && (User as SRSprojekt.Misc.curUser).IsInRole(SRSprojekt.Misc.OvlastiKorisnik.OvlastenaOsobaKluba))
+                    {
+                        <li class="nav-item">@Html.ActionLink("Statistika stolova", "Index", "Statistika", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+
+
+
+
+
+
                     @if (User.Identity.IsAuthenticated && (User as SRSprojekt.Misc.curUser).IsInRole(SRSprojekt.Misc.OvlastiKorisnik.Administrator))
                     {
                         <li class="nav-item">@Html.ActionLink("Korisnici", "Index", "Korisnici", new { area = "" }, new { @class = "nav-link" })</li>
@@ -70,6 +91,7 @@
         <hr />
         <footer>
             <p class="footer-text">&copy; @DateTime.Now.Year - Sustav rezervacije stola - PAUP Mislovic Abel</p>
+            @Html.ActionLink("Registracija klubova", "SendEmailK", "rezervacija", new { area = "" }, new { @class = "navbar-brand" })
         </footer>
     </div>
 

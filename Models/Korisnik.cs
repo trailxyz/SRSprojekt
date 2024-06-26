@@ -17,7 +17,7 @@ namespace SRSprojekt.Models
         public string KorisnikName { get; set; }
 
 
-        [Display(Name = "Korisnicko ime")]
+        [Display(Name = "Email")]
         [EmailAddress]
         [Required]
         public string Email { get; set; }
