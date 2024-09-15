@@ -1,0 +1,32 @@
+﻿@model SRSprojekt.Models.rezervacija  
+
+<h2>Reservation Details</h2>
+
+<table>
+    <tr>
+        <th>Reservation ID</th>
+        <td>@Model.ID_rezervacije</td>
+    </tr>
+    <tr>
+        <th>Date and Time</th>
+        <td>@Model.DatVri.ToString("g")</td>
+    </tr>
+    <tr>
+        <th>Reservation Status</th>
+        <td>@Model.Zauzetost</td>
+    </tr>
+</table>
+
+<h3>Table Details</h3>
+
+<table>
+    <tr>
+        <th>Table Number</th>
+        <td>@Model.brStola.broj_stola</td>  
+    </tr>
+    <tr>
+        <th>Occupied</th>
+        <td>@Model.brStola.zauzetost ? "Da" : "Ne"</td>  
+    </tr>
+   
+</table>

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<SRSprojekt.Models.rezervacija>  
+
+<h2>All Reservations</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Reservation ID</th>
+            <th>Date and Time</th>
+            <th>Reservation Status</th>
+            <th>Table Number</th>
+            <th>Table Occupied</th>
+            <th>Table Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reservation in Model)
+        {
+            <tr>
+                <td>@reservation.ID_rezervacije</td>
+                <td>@reservation.DatVri.ToString("g")</td>
+                
+
+
+                <td>@reservation.brStola.broj_stola</td>
+                <td>@(reservation.brStola.zauzetost ? "Yes" : "No")</td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>

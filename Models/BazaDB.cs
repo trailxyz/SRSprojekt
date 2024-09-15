@@ -18,6 +18,7 @@ namespace SRSprojekt.Models
         public DbSet<Stolovi> StoloviBaza { get; set; }
         public DbSet<ovlast> OvlastBaza { get; set; }
         public DbSet<Korisnik> KorisnikBaza { get; set; }
+        public DbSet<rezervacija> rezervacijaBaza { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -26,6 +27,36 @@ namespace SRSprojekt.Models
                 .HasOptional(s => s.aktivniR)
                 .WithMany(r => r.Stolovi)
                 .HasForeignKey(s => s.sifraR);
+
+            modelBuilder.Entity<rezervacija>()
+           .HasRequired(r => r.brStola)
+           .WithMany()
+           .HasForeignKey(r => r.ID_stola)
+           .WillCascadeOnDelete(false);
+
+            // Ensure proper configuration of entity mappings if necessary
+            modelBuilder.Entity<Stolovi>()
+                .Property(s => s.Sifra)
+                .HasColumnName("sifra");
+
+            modelBuilder.Entity<rezervacija>()
+                .Property(r => r.ID_rezervacije)
+                .HasColumnName("id_rezervacije");
+
+            modelBuilder.Entity<rezervacija>()
+                .Property(r => r.ID_stola)
+                .HasColumnName("idStola");
+
+            modelBuilder.Entity<rezervacija>()
+                .Property(r => r.Zauzetost)
+                .HasColumnName("zauz");
+
+            modelBuilder.Entity<rezervacija>()
+                .Property(r => r.DatVri)
+                .HasColumnName("datVri");
+
+            base.OnModelCreating(modelBuilder);
+
         }
 
     }

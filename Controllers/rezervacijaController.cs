@@ -58,7 +58,7 @@ namespace SRSprojekt.Controllers
             }
             catch (Exception)
             {
-                ViewBag.Error = "Some Error";
+                ViewBag.Error = "Greška";
             }
             return View();
         }
@@ -100,8 +100,9 @@ namespace SRSprojekt.Controllers
                     })
                     using (var registrator = new MailMessage(mail1, mail2)
                     {
-                        Subject = "Rezervacija za stol " + brS,
-                        Body = "/OVO JE AUTOMATIZIRANA PORUKA/ \n Želite registrirati stol sa sljedećim podacima\n" + "Klub ime: " + ime + "\nadresa: " + adresa + "\ncijenovni rang: " + cijenovni_rang + "\nbroj stolova: " + brS + "\n KONTAKT OSOBA\\n Ime i prezime: \" + IPO + \"\\nkontakt: \" + KO"
+                        Subject = "Rezervacija kluba " + brS,
+                        Body = "/OVO JE AUTOMATIZIRANA PORUKA/ \n" + "Klub ime: " + ime + "\nadresa: " + adresa + "\ncijenovni rang: " + cijenovni_rang + "\nbroj stolova: " + brS +
+                        "\nželi se registrirati u sustav. \n KONTAKT OSOBA\n Ime i prezime: " + IPO + "\nkontakt: " + KO,
                     })
                     {
                         smtp.Send(sustav);
@@ -112,7 +113,7 @@ namespace SRSprojekt.Controllers
             }
             catch (Exception)
             {
-                ViewBag.Error = "Some Error";
+                ViewBag.Error = "Greška";
             }
             return View();
         }

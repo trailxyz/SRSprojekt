@@ -56,7 +56,7 @@ namespace SRSprojekt.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Sifra,broj_stola,zauzetost")] Stolovi stolovi)
+        public ActionResult Create([Bind(Include = "Sifra,broj_stola,zauzetost,sifraR")] Stolovi stolovi)
         {
             if (ModelState.IsValid)
             {
@@ -74,15 +74,26 @@ namespace SRSprojekt.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Stolovi stolovi = db.StoloviBaza.Find(id);
             if (stolovi == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.RezervatorList = new SelectList(db.RezervatorBaza, "Id", "ImePrezime", stolovi.sifraR);
+            // Check if RezervatorBaza contains any data
+            var rezervators = db.RezervatorBaza.ToList();
+
+            // If it's empty, initialize with an empty list to avoid null exceptions
+            if (rezervators == null || !rezervators.Any())
+            {
+                rezervators = new List<Rezervator>();
+            }
+
+            ViewBag.RezervatorList = new SelectList(rezervators, "Id", "ImePrezime", stolovi.sifraR);
             return View(stolovi);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

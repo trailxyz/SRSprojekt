@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Reservation Failed";
+}
+
+<h2>Reservation Failed</h2>
+
+<div class="alert alert-danger">
+    <h4>Oops!</h4>
+    <p>@TempData["ErrorMessage"]</p>
+    <a href="@Url.Action("Create", "rezervacijas")" class="btn btn-primary">Try Again</a>
+</div>
