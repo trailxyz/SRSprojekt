@@ -13,7 +13,6 @@ namespace SRSprojekt.Controllers
     public class RezervatorController : Controller
     {
         BazaDB bazaPodataka = new BazaDB();
-        // GET: Korisnici
         [AllowAnonymous]
         public ActionResult Index()
         {
@@ -54,7 +53,6 @@ namespace SRSprojekt.Controllers
                 rezervator = new Rezervator();
                 ViewBag.Title = "Unos novog rezervatora";
                 ViewBag.NoviRezervator = true;
-                // return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
             else
             {

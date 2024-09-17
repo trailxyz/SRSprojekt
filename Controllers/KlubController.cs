@@ -12,7 +12,6 @@ namespace SRSprojekt.Controllers
     public class KlubController : Controller
     {
         BazaDB bazaPodataka = new BazaDB();
-        // GET: Korisnici
        
         public ActionResult Index()
         {
@@ -55,7 +54,6 @@ namespace SRSprojekt.Controllers
                 klub = new Klub();
                 ViewBag.Title = "Unos novog kluba";
                 ViewBag.NoviKlub = true;
-                // return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
             else
             {

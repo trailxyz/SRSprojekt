@@ -21,7 +21,6 @@ namespace SRSprojekt.Models
                     nazivK = "MEV klub",
                     adresaK = "ulica jorgovana 11",
                    brStol=15,
-                  // Cijenovni_Rang =cijenovni_rang.jeftin
                 }
                );
                 lista.Add(new Klub()
@@ -30,7 +29,6 @@ namespace SRSprojekt.Models
                     nazivK = "kaotik klub",
                     adresaK = "ulica tratincica 11",
                     brStol = 250,
-                   // Cijenovni_Rang = cijenovni_rang.skup
                 }
                    );
             }

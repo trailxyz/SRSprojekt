@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using SRSprojekt.Models;
+using System;
 using System.Data.Entity;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using SRSprojekt.Models;
 
 namespace SRSprojekt.Controllers
 {
     public class rezervacijasController : Controller
     {
-        private BazaDB db = new BazaDB();
+        private readonly BazaDB db = new BazaDB();
 
         public ActionResult ReservationFailed()
         {
@@ -26,33 +21,25 @@ namespace SRSprojekt.Controllers
             return View();
         }
 
-        // GET: rezervacijas
         public ActionResult Index()
         {
-            // Load all reservations and include related Stolovi tables
-            var allReservations = db.rezervacijaBaza
-                                    .Include(r => r.brStola)  // Include related Stolovi tables
+            System.Collections.Generic.List<rezervacija> allReservations = db.rezervacijaBaza
+                                    .Include(r => r.brStola)
                                     .ToList();
 
             return View(allReservations);
         }
 
-        // GET: rezervacijas/Details/5
         public ActionResult Details(string id)
         {
-            // Load the reservation and include related table (Stolovi) using Include()
-            var rezervacija = db.rezervacijaBaza
-                                .Include(r => r.brStola)  // Include related Stolovi table
+            rezervacija rezervacija = db.rezervacijaBaza
+                                .Include(r => r.brStola)
                                 .FirstOrDefault(r => r.ID_rezervacije == id);
 
             if (rezervacija != null)
             {
-                // Access the related table (Stolovi) through the navigation property
-                var stolDetails = rezervacija.brStola;
-
-                // Example: Display the table's number and whether it’s occupied
-                ViewBag.TableNumber = stolDetails.broj_stola;
-                ViewBag.IsOccupied = stolDetails.zauzetost;
+                ViewBag.TableNumber = rezervacija.brStola?.broj_stola;
+                ViewBag.IsOccupied = rezervacija.brStola?.zauzetost;
 
                 return View(rezervacija);
             }
@@ -60,67 +47,76 @@ namespace SRSprojekt.Controllers
             return HttpNotFound();
         }
 
-        // GET: rezervacijas/Create
         public ActionResult Create()
         {
-            // Populate the list of tables for the dropdown
-            ViewBag.TableList = new SelectList(db.StoloviBaza, "Sifra", "broj_stola");
+            System.Collections.Generic.List<SelectListItem> tables = db.StoloviBaza
+                .Select(t => new SelectListItem
+                {
+                    Value = t.Sifra,
+                    Text = t.broj_stola
+                })
+                .ToList();
+
+            ViewBag.ID_stola = new SelectList(tables, "Value", "Text");
+
             return View();
         }
 
-
-
-
-        // POST: rezervacijas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(rezervacija rezervacija)
         {
-            // Validate the model
-            if (!ModelState.IsValid)
+            System.Collections.Generic.List<SelectListItem> tables = db.StoloviBaza
+                .Select(t => new SelectListItem
+                {
+                    Value = t.Sifra,
+                    Text = t.broj_stola
+                })
+                .ToList();
+            ViewBag.ID_stola = new SelectList(tables, "Value", "Text");
+
+            if (ModelState.IsValid)
             {
-                // Check table availability
-                bool isAvailable = CheckTableAvailability(rezervacija.ID_stola, rezervacija.DatVri);
-
-                if (isAvailable)
+                try
                 {
-                    // Proceed with reservation creation
-                    rezervacija.Zauzetost = 1;
-                    db.rezervacijaBaza.Add(rezervacija);
-                    db.SaveChanges();
+                    rezervacija.ID_rezervacije = Guid.NewGuid().ToString();
 
-                    // Optionally mark the table as occupied
-                    var table = db.StoloviBaza.FirstOrDefault(t => t.Sifra == rezervacija.ID_stola);
-                    if (table != null)
+                    bool isAvailable = CheckTableAvailability(rezervacija.ID_stola, rezervacija.DatVri);
+
+                    if (isAvailable)
                     {
-                        table.zauzetost = true;
-                        db.Entry(table).State = EntityState.Modified;
-                        db.SaveChanges();
-                    }
+                        rezervacija.Zauzetost = true;
 
-                    return RedirectToAction("ReservationSuccess");
+                        _ = db.rezervacijaBaza.Add(rezervacija);
+                        _ = db.SaveChanges();
+
+                        Stolovi table = db.StoloviBaza.FirstOrDefault(t => t.Sifra == rezervacija.ID_stola);
+                        if (table != null)
+                        {
+                            table.zauzetost = true;
+                            db.Entry(table).State = EntityState.Modified;
+                            _ = db.SaveChanges();
+                        }
+
+                        return RedirectToAction("ReservationSuccess");
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "The table is not available at the selected time.";
+                        return RedirectToAction("ReservationFailed");
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    // Return an error message if the table is not available
-                    TempData["ErrorMessage"] = "The table is not available at the selected time.";
-                    return RedirectToAction("ReservationFailed");
+                    ModelState.AddModelError("", "An error occurred while saving the reservation.");
                 }
             }
 
-            // If validation failed, repopulate dropdown and return view
-            ViewBag.TableList = new SelectList(db.StoloviBaza, "Sifra", "broj_stola", rezervacija.ID_stola);
             return View(rezervacija);
         }
 
 
 
-
-
-
-
-
-        // GET: rezervacijas/Edit/5
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -128,30 +124,22 @@ namespace SRSprojekt.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             rezervacija rezervacija = db.rezervacijaBaza.Find(id);
-            if (rezervacija == null)
-            {
-                return HttpNotFound();
-            }
-            return View(rezervacija);
+            return rezervacija == null ? HttpNotFound() : (ActionResult)View(rezervacija);
         }
 
-        // POST: rezervacijas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,ID_stola,Zauzetost,DatVri")] rezervacija rezervacija)
+        public ActionResult Edit([Bind(Include = "ID_rezervacije,ID_stola,Zauzetost,DatVri")] rezervacija rezervacija)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(rezervacija).State = EntityState.Modified;
-                db.SaveChanges();
+                _ = db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(rezervacija);
         }
 
-        // GET: rezervacijas/Delete/5
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -159,21 +147,16 @@ namespace SRSprojekt.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             rezervacija rezervacija = db.rezervacijaBaza.Find(id);
-            if (rezervacija == null)
-            {
-                return HttpNotFound();
-            }
-            return View(rezervacija);
+            return rezervacija == null ? HttpNotFound() : (ActionResult)View(rezervacija);
         }
 
-        // POST: rezervacijas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
             rezervacija rezervacija = db.rezervacijaBaza.Find(id);
-            db.rezervacijaBaza.Remove(rezervacija);
-            db.SaveChanges();
+            _ = db.rezervacijaBaza.Remove(rezervacija);
+            _ = db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -188,23 +171,17 @@ namespace SRSprojekt.Controllers
 
         public bool CheckTableAvailability(string ID_stola, DateTime requestedDateTime)
         {
-            // Convert the requestedDateTime to just the date part for comparison
             DateTime requestedDateOnly = requestedDateTime.Date;
+            TimeSpan requestedTimeOnly = new TimeSpan(requestedDateTime.Hour, requestedDateTime.Minute, 0);
 
-            // Fetch all existing reservations for the table
-            var existingReservations = db.rezervacijaBaza
+            System.Collections.Generic.List<rezervacija> existingReservations = db.rezervacijaBaza
                 .Where(r => r.ID_stola == ID_stola)
-                .ToList();  // Load all reservations into memory to perform in-memory filtering
+                .ToList();
 
-            // Check if there is any reservation that conflicts with the requested date and time
             bool isAvailable = !existingReservations.Any(r =>
-                r.DatVri.Date == requestedDateOnly && r.DatVri.TimeOfDay == requestedDateTime.TimeOfDay);
+                r.DatVri.Date == requestedDateOnly && r.DatVri.TimeOfDay.Hours == requestedTimeOnly.Hours && r.DatVri.TimeOfDay.Minutes == requestedTimeOnly.Minutes);
 
             return isAvailable;
         }
-
-
-
-
     }
 }

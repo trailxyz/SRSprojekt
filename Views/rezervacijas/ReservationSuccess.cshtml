@@ -5,7 +5,11 @@
 <h2>Reservation Successful</h2>
 
 <div class="alert alert-success">
-    <h4>Success!</h4>
-    <p>Your reservation has been successfully created. Thank you for choosing our service.</p>
-    <a href="@Url.Action("Index", "rezervacijas")" class="btn btn-primary">Return to Reservation List</a>
-</div>
+    <h4>Uspjeh!</h4>
+    <p>Vaša rezervacija je uspješno napravljena. Hvala vam na korištenju usluge SRS-a.</p>
+    @if (User.Identity.IsAuthenticated && (User as SRSprojekt.Misc.curUser).IsInRole(SRSprojekt.Misc.OvlastiKorisnik.Administrator))
+    {
+        <a href="@Url.Action("Index", "rezervacijas")" class="btn btn-primary">Vrati se na listu rezervacija</a>
+    }
+
+    </div>

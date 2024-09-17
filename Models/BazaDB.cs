@@ -34,7 +34,6 @@ namespace SRSprojekt.Models
            .HasForeignKey(r => r.ID_stola)
            .WillCascadeOnDelete(false);
 
-            // Ensure proper configuration of entity mappings if necessary
             modelBuilder.Entity<Stolovi>()
                 .Property(s => s.Sifra)
                 .HasColumnName("sifra");

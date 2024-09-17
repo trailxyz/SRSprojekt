@@ -14,7 +14,6 @@ namespace SRSprojekt.Controllers
     public class KorisniciController : Controller
     {
         BazaDB bazaDB = new BazaDB();
-        // GET: Korisnici
         public ActionResult Index()
         {
             var listaKorisnika = bazaDB.KorisnikBaza.OrderBy(x => x.sifraOvlasti).ThenBy(x => x.Prezime).ToList();

@@ -81,10 +81,8 @@ namespace SRSprojekt.Controllers
                 return HttpNotFound();
             }
 
-            // Check if RezervatorBaza contains any data
             var rezervators = db.RezervatorBaza.ToList();
 
-            // If it's empty, initialize with an empty list to avoid null exceptions
             if (rezervators == null || !rezervators.Any())
             {
                 rezervators = new List<Rezervator>();

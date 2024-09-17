@@ -13,8 +13,7 @@ namespace SRSprojekt.Models
         [Key]
         [Column("id_rezervacije")]
         [Display(Name = "ID rezervacije")]
-        [Required(ErrorMessage = "{0} je obavezna")]
-        [StringLength(10, ErrorMessage = "{0} mora biti duljine maksimalno {1} znakova")]
+        [StringLength(255, ErrorMessage = "{0} mora biti duljine maksimalno {1} znakova")]
         public string ID_rezervacije { get; set; }
 
         [Column("idStola")]
@@ -23,13 +22,12 @@ namespace SRSprojekt.Models
         public string ID_stola { get; set; }
 
         [Display(Name = "Broj stola")]
-        [Required(ErrorMessage = "{0} je obavezan")]
         public Stolovi brStola { get; set; }
 
         [Column("zauz")]
         [Display(Name = "Zauzetost")]
         [Required(ErrorMessage = "{0} je obavezna")]
-        public int Zauzetost { get; set; }
+        public bool Zauzetost { get; set; }
 
         [Column("datVri")]
         [Display(Name = "Datum i vrijeme")]

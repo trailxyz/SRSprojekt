@@ -1,53 +1,31 @@
 ﻿@model SRSprojekt.Models.rezervacija
 
-@{
-    ViewBag.Title = "Edit";
-}
+<h2>Detalji rezervacije</h2>
 
-<h2>Edit</h2>
+<table>
+    <tr>
+        <th>ID rezervacije</th>
+        <td>@Model.ID_rezervacije</td>
+    </tr>
+    <tr>
+        <th>Datum i vrijeme</th>
+        <td>@Model.DatVri.ToString("g")</td>
+    </tr>
+    <tr>
+        <th>Status rezervacije</th>
+        <td>@Model.Zauzetost ? "Zauzeto" : "Slobodno"</td>
+    </tr>
+</table>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>rezervacija</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID_rezervacije)
+<h3>Detalji stola</h3>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.brStola.broj_stola, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ID_stola, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ID_stola, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.brStola.zauzetost, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Zauzetost, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Zauzetost, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DatVri, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DatVri, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DatVri, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<table>
+    <tr>
+        <th>Broj stola</th>
+        <td>@Model.brStola.broj_stola</td>
+    </tr>
+    <tr>
+        <th>Zauzetost</th>
+        <td>@Model.brStola.zauzetost ? "Da" : "Ne"</td>
+    </tr>
+</table>

@@ -1,32 +1,43 @@
-﻿@model IEnumerable<SRSprojekt.Models.rezervacija>  
+﻿@model IEnumerable<SRSprojekt.Models.rezervacija>
 
-<h2>All Reservations</h2>
+@{
+    ViewBag.Title = "Pregled Rezervacija";
+}
 
-<table class="table">
+<h2>Pregled Rezervacija</h2>
+
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>Reservation ID</th>
-            <th>Date and Time</th>
-            <th>Reservation Status</th>
-            <th>Table Number</th>
-            <th>Table Occupied</th>
-            <th>Table Image</th>
+            <th>ID rezervacije</th>
+            <th>Broj stola</th>
+            <th>Zauzetost</th>
+            <th>Datum i vrijeme</th>
+            <th>Akcije</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var reservation in Model)
+        @foreach (var item in Model)
         {
             <tr>
-                <td>@reservation.ID_rezervacije</td>
-                <td>@reservation.DatVri.ToString("g")</td>
-                
-
-
-                <td>@reservation.brStola.broj_stola</td>
-                <td>@(reservation.brStola.zauzetost ? "Yes" : "No")</td>
-
-
+                <td>@Html.DisplayFor(modelItem => item.ID_rezervacije)</td>
+                <td>@Html.DisplayFor(modelItem => item.ID_stola)</td>
+                <td>@Html.DisplayFor(modelItem => item.Zauzetost)</td>
+                <td>@Html.DisplayFor(modelItem => item.DatVri)</td>
+                <td>
+                    @Html.ActionLink("Detalji", "Details", new { id = item.ID_rezervacije }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Uredi", "Edit", new { id = item.ID_rezervacije }, new { @class = "btn btn-warning" })
+                    @using (Html.BeginForm("Delete", "rezervacijas", new { id = item.ID_rezervacije }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="submit" value="Obriši" class="btn btn-danger" onclick="return confirm('Jeste li sigurni da želite obrisati ovu rezervaciju?');" />
+                    }
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<p>
+    @Html.ActionLink("Nova Rezervacija", "Create", null, new { @class = "btn btn-success" })
+</p>

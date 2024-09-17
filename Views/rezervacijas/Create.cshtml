@@ -11,20 +11,20 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>rezervacija</h4>
+        <h4>Reservation</h4>
         <hr />
         @Html.ValidationSummary(true)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ID_stola, "Table", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ID_stola, "Stol", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ID_stola", (IEnumerable<SelectListItem>)ViewBag.Tables, "Select a table", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ID_stola, (IEnumerable<SelectListItem>)ViewBag.ID_stola, "Odaberite stol", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ID_stola)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DatVri, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DatVri, "Datum i vrijeme", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextBoxFor(model => model.DatVri, "{0:yyyy-MM-ddTHH:mm}", new { @class = "form-control", type = "datetime-local" })
                 @Html.ValidationMessageFor(model => model.DatVri)

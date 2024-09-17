@@ -11,7 +11,6 @@ namespace SRSprojekt.Controllers
     {
 
         BazaDB bazaPodataka = new BazaDB();
-        // GET: Korisnici
         [AllowAnonymous]
         public ActionResult Index()
         {
@@ -24,7 +23,6 @@ namespace SRSprojekt.Controllers
         {
             var oklub = bazaPodataka.ovlastenaosobakluba.ToList();
 
-           // string kombajn = ime + prezime;
            
             if (!String.IsNullOrEmpty(ime))
             {
@@ -59,7 +57,6 @@ namespace SRSprojekt.Controllers
                 ovlasteni = new oKlub();
                 ViewBag.Title = "Unos nove ovlastene osobe kluba";
                 ViewBag.NoviOvlasteni = true;
-                // return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
             else
             {

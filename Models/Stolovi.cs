@@ -18,7 +18,7 @@ namespace SRSprojekt.Models
         [Column("brojstola")]
         [Display(Name = "Broj stola")]
         [Required(ErrorMessage = "{0} je obavezan")]
-        [StringLength(5, ErrorMessage = "{0} mora biti duljine maksimalno {1} znakova")]
+        [StringLength(10, ErrorMessage = "{0} mora biti duljine maksimalno {1} znakova")]
         public string broj_stola { get; set; }
 
         [Column("zauzetost")]

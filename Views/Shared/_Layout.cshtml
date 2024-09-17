@@ -60,6 +60,10 @@
                     {
                         <li class="nav-item">@Html.ActionLink("Statistika stolova", "Index", "Statistika", new { area = "" }, new { @class = "nav-link" })</li>
                     }
+                    @if (User.Identity.IsAuthenticated && (User as SRSprojekt.Misc.curUser).IsInRole(SRSprojekt.Misc.OvlastiKorisnik.Administrator))
+                    {
+                        <li class="nav-item">@Html.ActionLink("Rezervacije", "Index", "rezervacijas", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
 
 
 
